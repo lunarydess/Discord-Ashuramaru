@@ -1,15 +1,14 @@
 package rip.lunarydess.ashuramaru;
 
-import java.io.File;
+import java.io.IOException;
 
 public final class Ashuramaru {
     private static final Ashuramaru INSTANCE = new Ashuramaru();
-    private final File configFile = new File("config.toml");
-    
-    public static void main(final String... args) {
+
+    public static void main(final String... args) throws IOException {
         INSTANCE.run();
     }
-    
+
     public void run() {
     }
 }
