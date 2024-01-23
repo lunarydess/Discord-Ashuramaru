@@ -32,11 +32,12 @@ dependencies {
         arrayOf("info.picocli"   , "picocli"        , prop("ver_picocli") , true ),
         
         arrayOf("org.slf4j"  , "slf4j-api"    , prop("ver_slf4j"  ), true),
-        arrayOf("org.tinylog", "slf4j-tinylog", prop("ver_tinylog"), true)
+        arrayOf("org.tinylog", "slf4j-tinylog", prop("ver_tinylog"), true),
+        arrayOf("org.tinylog", "tinylog-impl" , prop("ver_tinylog"), true)
     ).forEach {
         if(it[3] as Boolean)
-        shadow      (group = it[0].toString(), name = it[1].toString(), version = it[2].toString())
-        compileOnly (group = it[0].toString(), name = it[1].toString(), version = it[2].toString())
+        shadow         (group = it[0].toString(), name = it[1].toString(), version = it[2].toString())
+        implementation (group = it[0].toString(), name = it[1].toString(), version = it[2].toString())
     } // @formatter:on
 
     val localDeps = fileTree(
@@ -55,7 +56,7 @@ dependencies {
     )
     // @formatter:off
     shadow     (dependencyNotation =             localShadowDeps)
-    compileOnly(dependencyNotation = localDeps + localShadowDeps)
+    implementation(dependencyNotation = localDeps + localShadowDeps)
     // @formatter:on
 }
 
