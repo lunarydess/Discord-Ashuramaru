@@ -1,0 +1,5 @@
+﻿src/
+build.gradle.kts
+gradle.properties
+settings.gradle.kts
+gradle/wrapper/
