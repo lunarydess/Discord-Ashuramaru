@@ -35,7 +35,7 @@ dependencies {
         "com.fasterxml.jackson"
     )
     arrayOf( // @formatter:off
-        arrayOf("org.jetbrains.kotlin", "kotlin-stdlib",            "2.0.0-Beta3" , true , nodeps),
+        arrayOf("org.jetbrains.kotlin", "kotlin-stdlib",      "2.0.0-Beta3" , true , nodeps),
         arrayOf("org.jetbrains"       , "annotations"  , prop("ver_ann-jbr"), false, nodeps),
         
         arrayOf("info.picocli" , "picocli"    , prop("ver_picocli") , true , nodeps),
