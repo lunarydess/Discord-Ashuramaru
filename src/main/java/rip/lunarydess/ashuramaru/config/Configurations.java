@@ -21,30 +21,30 @@ public final class Configurations {
 
     private static final Path CONFIG_PATH = Path.of("config.toml");
     private static final String DEFAULT_CONFIG = """
-    config_version = 1
-    \n
-    [general]
-    bot_token = ""
-    enabled_intents = [ # let's have an existential crisis :D
-         0, # guilds
-         1, # privileged - guild members
-         2, # guild bans
-         3, # guild emojis
-         4, # guild integrations
-         5, # guild webhooks
-         6, # guild invites
-         7, # guild voice states
-         8, # privileged - guild presences
-         9, # guild messages
-        10, # guild message reactions
-        11, # guild message typing
-        12, # direct messages
-        13, # direct message reactions
-        14, # direct message typing
-        15, # privileged - message contents
-        16  # guild scheduled events
-    ]
-    """;
+            config_version = 1
+            \n
+            [general]
+            bot_token = ""
+            enabled_intents = [ # let's have an existential crisis :D
+                 0, # guilds
+                 1, # privileged - guild members
+                 2, # guild bans
+                 3, # guild emojis
+                 4, # guild integrations
+                 5, # guild webhooks
+                 6, # guild invites
+                 7, # guild voice states
+                 8, # privileged - guild presences
+                 9, # guild messages
+                10, # guild message reactions
+                11, # guild message typing
+                12, # direct messages
+                13, # direct message reactions
+                14, # direct message typing
+                15, # privileged - message contents
+                16  # guild scheduled events
+            ]
+            """;
 
     private final @NotNull Consumer<Throwable> onError;
     private final ObjectMapper mapper;
@@ -79,19 +79,40 @@ public final class Configurations {
         }
     }
 
-    public void load() {
+    public boolean load() {
+        boolean loaded = false;
+        trycatch:
         try {
             Ashuramaru.getInstance()
                     .getLogger()
                     .debug((this.data = mapper.readValue(CONFIG_PATH.toFile(), ConfigValues.class)).toString());
-            if (this.data().configVersion() == CONFIG_VERSION) return;
+            if (this.data().configVersion() == CONFIG_VERSION) {
+                loaded = true;
+                break trycatch;
+            }
             this.onError.accept(new ConfigThrowables.WrongConfigVersion(this.data.configVersion()));
+        } catch (final Throwable throwable) {
+            this.data = null;
+            this.onError.accept(throwable);
+        }
+        return loaded;
+    }
+
+    public boolean save() {
+        /* TODO: ... | not implemented yet
+        boolean saved = false;
+        try {
+            this.mapper
+                    .writerFor(ConfigValues.class)
+                    .writeValues(CONFIG_PATH.toFile())
+                    .close();
+            saved = true;
         } catch (final Throwable throwable) {
             this.onError.accept(throwable);
         }
-    }
-
-    public void save() {
+        return saved;
+         */
+        return true;
     }
 
     public ConfigValues data() {
