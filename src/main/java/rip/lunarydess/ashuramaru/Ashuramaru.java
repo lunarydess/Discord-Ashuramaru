@@ -8,6 +8,11 @@ import org.javacord.api.entity.user.UserStatus;
 import org.javacord.api.interaction.SlashCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rip.lunarydess.ashuramaru.config.Configurations;
+import rip.lunarydess.lilith.utility.ArrayKit;
+
+import java.util.Arrays;
+import java.util.Locale;
 
 /*
 final ExecutorService activityExecServ = Executors.newSingleThreadExecutor();
@@ -48,7 +53,12 @@ activityExecServ.execute(activityExec);
 public final class Ashuramaru {
     private static final Ashuramaru INSTANCE = new Ashuramaru();
 
+    private final Thread onShutdown = new Thread(this::close);
+
     private final Logger logger = LoggerFactory.getLogger(Ashuramaru.class);
+    private final Configurations config = new Configurations(
+            throwable -> this.logger.error(throwable.getMessage(), throwable)
+    );
 
     public static void main(final String... args) {
         INSTANCE.run();
@@ -59,11 +69,32 @@ public final class Ashuramaru {
     }
 
     public void run() {
-        String token = "MTE0NjA0MDU3NzY3MTA1NzUwOQ.GeQl58.lN5M2tJqmJ1Dy-hF-POmtYRjWwEuuYszQNu3V4";
+        Runtime.getRuntime().addShutdownHook(this.onShutdown);
+        this.getConfig().load();
+
+        if (this.getConfig().data() == null) {
+            this.getLogger().error("The config data is corrupted, recheck! Shutting down...");
+            Runtime.getRuntime().exit(-1);
+            return;
+        }
+
+        final Intent[] enabledIntents = Arrays
+                .stream(Intent.values())
+                .filter(intent -> Arrays
+                        .stream(this.getConfig().data().general().enabledIntents())
+                        .anyMatch(value -> value == intent.getId()))
+                .toArray(Intent[]::new);
+
+        logger.info(String.format("Found enabled intents: %s", ArrayKit.toString(intent -> intent
+                        .toString()
+                        .toLowerCase(Locale.ROOT)
+                        .replaceAll("_", " "),
+                enabledIntents
+        )));
 
         final DiscordApi api = new DiscordApiBuilder()
-                .setToken(token)
-                .addIntents(Intent.values()) // let's have an existential crisis :D
+                .setToken(this.getConfig().data().general().botToken())
+                .addIntents(enabledIntents)
                 .setWaitForServersOnStartup(true)
                 .setTrustAllCertificates(false)
                 .setUserCacheEnabled(true)
@@ -77,7 +108,22 @@ public final class Ashuramaru {
 
         logger.info(String.format(
                 "You can invite the bot by using the following url: %s",
-                api.createBotInvite(Permissions.fromBitmask(Intent.calculateBitmask(Intent.values())))
+                api.createBotInvite(Permissions.fromBitmask(Intent.calculateBitmask(enabledIntents)))
         ));
+    }
+
+    public void close() {
+    }
+
+    public Logger getLogger() {
+        return this.logger;
+    }
+
+    public Configurations getConfig() {
+        return this.config;
+    }
+
+    public boolean isDebug() {
+        return true;
     }
 }

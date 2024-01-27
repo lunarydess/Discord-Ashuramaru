@@ -38,7 +38,7 @@ dependencies {
         arrayOf("org.jetbrains.kotlin", "kotlin-stdlib",      "2.0.0-Beta3" , true , nodeps),
         arrayOf("org.jetbrains"       , "annotations"  , prop("ver_ann-jbr"), false, nodeps),
         
-        arrayOf("info.picocli" , "picocli"    , prop("ver_picocli") , true , nodeps),
+        arrayOf("info.picocli", "picocli", prop("ver_picocli"), true, nodeps),
 
         /* javacord dependency hell - begin */
         arrayOf("org.javacord", "javacord-api" , prop("ver_javacord"), true, exclJavaCord),
@@ -56,12 +56,11 @@ dependencies {
         
         arrayOf("org.bouncycastle"    , "bcprov-jdk18on"     , prop("ver_bcprov"), true, nodeps),
 
-        arrayOf("com.fasterxml.jackson.core", "jackson-annotations", prop("ver_jackson"), true, nodeps),
-        arrayOf("com.fasterxml.jackson.core", "jackson-core"       , prop("ver_jackson"), true, nodeps),
-        arrayOf("com.fasterxml.jackson.core", "jackson-databind"   , prop("ver_jackson"), true, nodeps),
+        arrayOf("com.fasterxml.jackson.core"      , "jackson-annotations"    , prop("ver_jackson"), true, nodeps),
+        arrayOf("com.fasterxml.jackson.core"      , "jackson-core"           , prop("ver_jackson"), true, nodeps),
+        arrayOf("com.fasterxml.jackson.core"      , "jackson-databind"       , prop("ver_jackson"), true, nodeps),
+        arrayOf("com.fasterxml.jackson.dataformat", "jackson-dataformat-toml", prop("ver_jackson"), true, nodeps),
         /* javacord dependency hell - end (me) */
-        
-        // implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.0-Beta3")
         
         // ugliest workaround EVER ;-;
         arrayOf("org.slf4j"               , "slf4j-api"        , prop("ver_slf4j"  ), true, nodeps),
