@@ -1,12 +1,11 @@
 package rip.lunarydess.ashuramaru.config;
 
-public class ConfigThrowables {
+public final class ConfigThrowables {
     public static final class File {
-        public static final class NotCreatable extends Throwable {
-        }
-
-        public static final class NotWritable extends Throwable {
-        }
+        // @formatter:off
+        public static final class NotCreatable extends Throwable {}
+        public static final class NotWritable extends Throwable {}
+        // @formatter:on
     }
 
     public static final class WrongConfigVersion extends Throwable {
@@ -16,5 +15,4 @@ public class ConfigThrowables {
             super(String.format("%d %s", version, ERROR));
         }
     }
-
 }

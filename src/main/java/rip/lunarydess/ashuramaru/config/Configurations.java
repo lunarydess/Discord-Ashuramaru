@@ -80,22 +80,17 @@ public final class Configurations {
     }
 
     public boolean load() {
-        boolean loaded = false;
-        trycatch:
         try {
             Ashuramaru.getInstance()
                     .getLogger()
                     .debug((this.data = mapper.readValue(CONFIG_PATH.toFile(), ConfigValues.class)).toString());
-            if (this.data().configVersion() == CONFIG_VERSION) {
-                loaded = true;
-                break trycatch;
-            }
+            if (this.data().configVersion() == CONFIG_VERSION) return true;
             this.onError.accept(new ConfigThrowables.WrongConfigVersion(this.data.configVersion()));
         } catch (final Throwable throwable) {
             this.data = null;
             this.onError.accept(throwable);
         }
-        return loaded;
+        return false;
     }
 
     public boolean save() {

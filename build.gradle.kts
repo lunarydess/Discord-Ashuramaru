@@ -38,8 +38,9 @@ dependencies {
         arrayOf("org.jetbrains.kotlin", "kotlin-stdlib",      "2.0.0-Beta3" , true , nodeps),
         arrayOf("org.jetbrains"       , "annotations"  , prop("ver_ann-jbr"), false, nodeps),
 
-        arrayOf("info.picocli", "picocli", prop("ver_picocli"), true, nodeps),
-        arrayOf("org.tukaani" , "xz"     , prop("ver_xz"     ), true, nodeps),
+        arrayOf("info.picocli"  , "picocli"    , prop("ver_picocli"    ), true, nodeps),
+        arrayOf("org.tukaani"   , "xz"         , prop("ver_xz"         ), true, nodeps),
+        arrayOf("net.logicsquad", "nanocaptcha", prop("ver_nanocaptcha"), true, arrayOf("org.slf4j", "org.apache")),
 
         /* javacord dependency hell - begin */
         arrayOf("org.javacord", "javacord-api" , prop("ver_javacord"), true, exclJavaCord),
