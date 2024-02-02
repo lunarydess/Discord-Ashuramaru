@@ -62,12 +62,11 @@ public final class Configurations {
                 .enable(TomlReadFeature.PARSE_JAVA_TIME)
                 .enable(TomlWriteFeature.FAIL_ON_NULL_WRITE)
                 .build());
-        creationBlock:
         try {
-            if (Files.exists(CONFIG_PATH)) break creationBlock;
+            if (Files.exists(CONFIG_PATH)) return;
             if (Files.notExists(Files.createFile(CONFIG_PATH))) {
                 onError.accept(new ConfigThrowables.File.NotCreatable());
-                break creationBlock;
+                return;
             }
             Files.writeString(
                     CONFIG_PATH, DEFAULT_CONFIG,
