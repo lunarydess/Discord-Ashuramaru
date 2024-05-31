@@ -47,7 +47,7 @@ public final class MarsagliaPolarGaussianProducer implements NoiseProducer {
                 final int[] pixelSamples = raster.getPixel(x, y, iData);
                 for (int i = 0; i < pixelSamples.length; ++i) {
                     pixelSamples[i] = Arithmetics.clamp(
-                            (int) (pixelSamples[i] + (this.nextGaussian() * this.standardDeviation) + this.mean),
+                            (int) (pixelSamples[i] + (ThreadLocalRandom.current().nextGaussian() * this.standardDeviation) + this.mean),
                             0, 255
                     );
                 }
@@ -55,15 +55,5 @@ public final class MarsagliaPolarGaussianProducer implements NoiseProducer {
             }
         }
     }
-
-    private double nextGaussian() {
-        double x, y, squaredSum;
-        do {
-            final ThreadLocalRandom random = ThreadLocalRandom.current();
-            x = 2.0 * random.nextDouble() - 1.0;
-            y = 2.0 * random.nextDouble() - 1.0;
-            squaredSum = Math.fma(x, x, Math.fma(y, y, 0.0));
-        } while (squaredSum >= 1.0 || squaredSum == 0.0);
-        return x * Math.sqrt(-2.0 * Math.log(squaredSum) / squaredSum);
-    }
+    
 }
