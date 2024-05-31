@@ -8,7 +8,7 @@ import java.awt.image.WritableRaster;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * @author lunarydess, logicsquad
+ * @author lunarydess, logicsquad, Matthew Collins from the Pott
  * @implNote {@link net.logicsquad.nanocaptcha.image.noise.GaussianNoiseProducer GaussianNoiseProducer}
  * @see <a href="https://en.wikipedia.org/wiki/Marsaglia_polar_method">Wikipedia</a>
  */
